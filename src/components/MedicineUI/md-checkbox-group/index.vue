@@ -1,9 +1,9 @@
 <!-- 
     @name: MedicineUI_md-radio-group
     @author: Kynix Chan
-    @time: 11/28/2022 18:02 UTC/GMT+08:00
+    @time: 12/18/2022 18:22 UTC/GMT+08:00
     @location: Taipei, Taiwan
-    @description: Radio group for Medicine UI.
+    @description: Checkbox group for Medicine UI.
  -->
 <script setup>
     // Import system props.
@@ -28,7 +28,7 @@
             default: 'fit-content'
         },
         modelValue: {
-            type: String,
+            type: Array,
             default: ''
         }
     })
@@ -39,10 +39,13 @@
     // Does the title exist?
     let isTitle = ref(false)
 
-    // Title id
+    // Define data
+    let datas = reactive([])
+
+    // Define titleId
     const titleId = nanoid()
 
-    // Mount component
+    // Mount the application
     onMounted(() => {
         // Set the title
         if(props.title !== '') {
@@ -54,36 +57,40 @@
             document.getElementById(titleId).style.setProperty('border', 'none', 'important')
         }
 
-        // Receive the value.
-        Bus.$on('value', (value) => {
-            emit('update:modelValue', value) // Throw the value to the father.
-            Bus.$emit('close', value)
+        // Previous checked values
+        Bus.$on('checked', (value) => {
+            datas.push(value)
+            emit('update:modelValue', datas)
         })
 
-        // Receive the check states.
-        let checkStatus = reactive([])
-        Bus.$on('check', (value) => {
-            checkStatus.push(value)
+        // Receive the data
+        Bus.$on('changeCheckedStatus', (value) => {
+            if(value.operation === 'add') {
+                datas.push(value.value)
+            } else {
+                for(let i = 0;i < datas.length;i ++) {
+                    if(datas[i] === value.value) {
+                        datas.splice(i, 1)
+                        break
+                    }
+                }
+            }
+            emit('update:modelValue', datas)
         })
-        setTimeout(() => {
-            Bus.$emit('status', checkStatus)
-        }, 100)
     })
 
-    // Unmount the component.
     onUnmounted(() => {
-        Bus.$off('close')
-        Bus.$off('status')
+        Bus.$off('checked')
     })
 </script>
 
 <template>
-    <div id="md-radio-group">
-        <span :id="titleId">
+    <div id="mdCheckboxGroup">
+        <span class="title" :id="titleId">
             {{ props.title }}
         </span>
         <mdPanel 
-            id="md-radio-group-panel" 
+            id="md-checkbox-group-panel" 
             type="down" 
             :width="props.width" 
             :style="{ borderTopRightRadius: '15px', borderBottomRightRadius: '15px', borderTopLeftRadius: radius, borderBottomLeftRadius: radius }"
@@ -92,11 +99,10 @@
             <slot></slot>
         </mdPanel>
     </div>
-
 </template>
 
 <style scoped>
-    #md-radio-group {
+    #mdCheckboxGroup {
         display: grid;
         grid-template-columns: auto auto;
         width: fit-content;
@@ -117,7 +123,7 @@
         align-items: center;
     }
 
-    #title {
+    .title {
         display: inline-block;
         width: fit-content;
         border: .1rem solid #d1d9e6;

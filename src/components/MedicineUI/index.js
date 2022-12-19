@@ -5,6 +5,10 @@ import mdRadio from './md-radio/index'
 import mdInput from './md-input/index'
 import mdSwitch from './md-switch/index'
 import mdTag from './md-tag/index'
+import mdCheckbox from './md-checkbox'
+import mdCheckboxGroup from './md-checkbox-group'
+import mdScrollbar from './md-scrollbar'
+import mdDialog from './md-dialog'
 
 const components = [
     { name: 'mdPanel', component: mdPanel },
@@ -13,7 +17,11 @@ const components = [
     { name: 'mdRadio', component: mdRadio },
     { name: 'mdInput', component: mdInput },
     { name: 'mdSwitch', component: mdSwitch },
-    { name: 'mdTag', component: mdTag }
+    { name: 'mdTag', component: mdTag },
+    { name: 'mdCheckbox', component: mdCheckbox },
+    { name: 'mdCheckboxGroup', component: mdCheckboxGroup },
+    { name: 'mdScrollbar', component: mdScrollbar },
+    { name: 'mdDialog', component: mdDialog }
 ]
 
 const install = (Vue) => {
@@ -34,5 +42,9 @@ export default {
     mdRadio,
     mdInput,
     mdSwitch,
-    mdTag
+    mdTag,
+    mdCheckbox,
+    mdCheckboxGroup,
+    mdScrollbar,
+    mdDialog
 }
