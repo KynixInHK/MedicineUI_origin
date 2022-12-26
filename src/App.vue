@@ -9,6 +9,7 @@
   // import mdCheckboxGroup from './components/MedicineUI/md-checkbox-group/index.vue'
   // import mdScrollbar from './components/MedicineUI/md-scrollbar/index.vue'
   // import mdDialog from './components/MedicineUI/md-dialog/index.vue'
+  import mdNav from './components/MedicineUI/md-nav/index.vue'
   let value = ref('')
   watch(value, (newValue) => {
     console.log(newValue)
@@ -87,6 +88,10 @@
         <md-button @click="echo">1256</md-button>
       </template>
     </md-dialog>
+
+    <md-nav>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, officia optio? Porro est et qui! Molestias nostrum eius perspiciatis saepe quod laudantium reiciendis eveniet perferendis nam, iste in itaque totam?
+    </md-nav>
   </div>
 </template>
 
